@@ -8,6 +8,11 @@ document.getElementById("convert-btn").addEventListener("click", function() {
         return;
     }
 
+    if(fromCurrency === toCurrency) {
+        alert("Farklı para birimleri seçmelisiniz.");
+        return;
+    }
+
     fetch(`https://api.frankfurter.app/latest?amount=${amount}&from=${fromCurrency}&to=${toCurrency}`)
     .then(response => response.json())
     .then(data => {
