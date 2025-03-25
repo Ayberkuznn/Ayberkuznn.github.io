@@ -3,37 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Döviz Kuru Dönüştürücü</title>
+    <title>Döviz Kuru Dönüştürücü 💱</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="https://twemoji.maxcdn.com/v/latest/svg/1f4b1.svg">
 </head>
 <body>
+    <div class="card">
+        <h1>💸 Döviz Kuru Dönüştürücü</h1>
+        
+        <div class="input-group">
+            <input type="number" id="amount" placeholder="Tutar Girin..." />
+        </div>
 
-  <div class="container">
-    <h2>Döviz Kuru Dönüştürücü 💱</h2>
-    
-    <input type="number" id="amount" placeholder="Miktar girin..." />
-    
-    <select id="from-currency">
-      <option value="EUR">EUR (€)</option>
-      <option value="USD">USD ($)</option>
-      <option value="TRY">TRY (₺)</option>
-      <option value="GBP">GBP (£)</option>
-    </select>
-    
-    <span> ➡️ </span>
-    
-    <select id="to-currency">
-      <option value="USD">USD ($)</option>
-      <option value="EUR">EUR (€)</option>
-      <option value="TRY">TRY (₺)</option>
-      <option value="GBP">GBP (£)</option>
-    </select>
+        <div class="currency-group">
+            <select id="from-currency">
+                <option value="EUR">🇪🇺 EUR (€)</option>
+                <option value="USD">🇺🇸 USD ($)</option>
+                <option value="TRY">🇹🇷 TRY (₺)</option>
+                <option value="GBP">🇬🇧 GBP (£)</option>
+                <option value="JPY">🇯🇵 JPY (¥)</option>
+            </select>
 
-    <button id="convert-btn">Dönüştür</button>
-    
-    <h3 id="result"></h3>
-  </div>
+            <span class="arrow">➡️</span>
 
-  <script src="script.js"></script>
+            <select id="to-currency">
+                <option value="USD">🇺🇸 USD ($)</option>
+                <option value="EUR">🇪🇺 EUR (€)</option>
+                <option value="TRY">🇹🇷 TRY (₺)</option>
+                <option value="GBP">🇬🇧 GBP (£)</option>
+                <option value="JPY">🇯🇵 JPY (¥)</option>
+            </select>
+        </div>
+
+        <button id="convert-btn">🔄 Dönüştür</button>
+
+        <div class="result-box">
+            <h2 id="result">Sonuç burada gözükecek.</h2>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
