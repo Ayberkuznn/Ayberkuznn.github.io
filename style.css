@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f9fc;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #333;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8,33 +11,76 @@ body {
     margin: 0;
 }
 
-.container {
+.card {
     background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.input-group input {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    width: 80%;
+    font-size: 16px;
     text-align: center;
 }
 
-input, select, button {
+.currency-group {
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.currency-group select {
     padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    border-radius: 10px;
+    border: 2px solid #ddd;
     font-size: 16px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.arrow {
+    font-size: 22px;
 }
 
 button {
-    background-color: #007bff;
+    background: linear-gradient(90deg, #764ba2, #667eea);
     color: white;
-    cursor: pointer;
+    padding: 12px 20px;
     border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.2s ease;
 }
 
 button:hover {
-    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.result-box {
+    margin-top: 20px;
+    background-color: #f7f9fc;
+    padding: 10px;
+    border-radius: 10px;
+    min-height: 50px;
 }
 
 #result {
-    color: #333;
+    color: #222;
+    font-weight: 700;
+    font-size: 18px;
 }
