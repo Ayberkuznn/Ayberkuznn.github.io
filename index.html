@@ -1,47 +1,273 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Döviz Kuru Dönüştürücü 💱</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="https://twemoji.maxcdn.com/v/latest/svg/1f4b1.svg">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anneler Günün Kutlu Olsun 🌹</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: linear-gradient(135deg, #1a0010 0%, #3d0020 50%, #1a0010 100%);
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Georgia', serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Petals falling ── */
+    .petal-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .petal {
+      position: absolute;
+      top: -40px;
+      width: 12px;
+      height: 18px;
+      background: radial-gradient(ellipse at 40% 30%, #ff9ab2, #e8003d);
+      border-radius: 50% 0 50% 0;
+      opacity: 0.85;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: .9; }
+      80%  { opacity: .7; }
+      100% { transform: translateY(110vh) rotate(540deg) scale(.6); opacity: 0; }
+    }
+
+    /* ── Ground ── */
+    .ground {
+      position: fixed;
+      bottom: 0; left: 0;
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(to top, #0d1f00 0%, #1a3a00 60%, transparent 100%);
+      z-index: 1;
+    }
+
+    /* ── Rose stems ── */
+    .roses {
+      position: fixed;
+      bottom: 0; left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      z-index: 2;
+    }
+
+    .rose-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      animation: riseUp 1.2s ease-out forwards;
+    }
+
+    @keyframes riseUp {
+      from { opacity: 0; transform: translateY(60px) scale(.7); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* SVG rose */
+    .rose-svg { display: block; }
+
+    /* ── Heading ── */
+    .message {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 0 20px;
+      animation: fadeInDown 1.5s ease-out 0.3s both;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .message h1 {
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      color: #fff;
+      text-shadow:
+        0 0 20px #ff4477,
+        0 0 40px #ff1144,
+        0 0 80px #ff0033;
+      letter-spacing: 2px;
+      line-height: 1.3;
+      animation: glow 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 20px #ff4477, 0 0 40px #ff1144, 0 0 80px #ff0033; }
+      to   { text-shadow: 0 0 30px #ffaacc, 0 0 60px #ff4488, 0 0 120px #ff0066; }
+    }
+
+    .message p {
+      margin-top: 16px;
+      font-size: clamp(1rem, 2.5vw, 1.6rem);
+      color: #ffccdd;
+      letter-spacing: 1px;
+      opacity: .9;
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: .8; }
+      50%       { opacity: 1; }
+    }
+
+    /* ── Hearts ── */
+    .hearts {
+      position: fixed;
+      width: 100%; height: 100%;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 22px;
+      opacity: 0;
+      animation: floatHeart linear infinite;
+    }
+
+    @keyframes floatHeart {
+      0%   { transform: translateY(0) scale(.5); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: .8; }
+      100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+    }
+  </style>
 </head>
 <body>
-    <div class="card">
-        <h1>💸 Döviz Kuru Dönüştürücü</h1>
-        
-        <div class="input-group">
-            <input type="number" id="amount" placeholder="Tutar Girin..." />
-        </div>
 
-        <div class="currency-group">
-            <select id="from-currency">
-                <option value="EUR">🇪🇺 EUR (€)</option>
-                <option value="USD">🇺🇸 USD ($)</option>
-                <option value="TRY">🇹🇷 TRY (₺)</option>
-                <option value="GBP">🇬🇧 GBP (£)</option>
-                <option value="JPY">🇯🇵 JPY (¥)</option>
-            </select>
+  <!-- Falling petals -->
+  <div class="petal-container" id="petalContainer"></div>
 
-            <span class="arrow">➡️</span>
+  <!-- Floating hearts -->
+  <div class="hearts" id="heartContainer"></div>
 
-            <select id="to-currency">
-                <option value="USD">🇺🇸 USD ($)</option>
-                <option value="EUR">🇪🇺 EUR (€)</option>
-                <option value="TRY">🇹🇷 TRY (₺)</option>
-                <option value="GBP">🇬🇧 GBP (£)</option>
-                <option value="JPY">🇯🇵 JPY (¥)</option>
-            </select>
-        </div>
+  <!-- Ground grass -->
+  <div class="ground"></div>
 
-        <button id="convert-btn">🔄 Dönüştür</button>
+  <!-- Animated roses -->
+  <div class="roses" id="rosesRow"></div>
 
-        <div class="result-box">
-            <h2 id="result">Sonuç burada gözükecek.</h2>
-        </div>
-    </div>
+  <!-- Main message -->
+  <div class="message">
+    <h1>Anneler Günün<br>Kutlu Olsun 🌹</h1>
+    <p>Seni çok seviyorum, anneciğim ❤️</p>
+  </div>
 
-    <script src="script.js"></script>
+  <script>
+    /* ── Generate SVG rose ── */
+    function makeSvgRose(scale = 1, hue = 345) {
+      const s = scale;
+      return `
+      <svg class="rose-svg" width="${120*s}" height="${260*s}" viewBox="0 0 120 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="rg${hue}" cx="50%" cy="40%" r="60%">
+            <stop offset="0%"   stop-color="hsl(${hue},100%,72%)"/>
+            <stop offset="60%"  stop-color="hsl(${hue},95%,48%)"/>
+            <stop offset="100%" stop-color="hsl(${hue},90%,28%)"/>
+          </radialGradient>
+          <radialGradient id="lg${hue}" cx="50%" cy="30%" r="70%">
+            <stop offset="0%"  stop-color="#6dd45e"/>
+            <stop offset="100%" stop-color="#1a5c10"/>
+          </radialGradient>
+        </defs>
+
+        <!-- stem -->
+        <path d="M60 260 Q55 200 60 150" stroke="#2d6e1a" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+        <!-- leaf left -->
+        <ellipse cx="45" cy="195" rx="20" ry="10" fill="url(#lg${hue})" transform="rotate(-30 45 195)"/>
+        <!-- leaf right -->
+        <ellipse cx="75" cy="175" rx="20" ry="10" fill="url(#lg${hue})" transform="rotate(30 75 175)"/>
+
+        <!-- outer petals -->
+        <ellipse cx="60" cy="105" rx="30" ry="38" fill="url(#rg${hue})" opacity=".85" transform="rotate(-20 60 105)"/>
+        <ellipse cx="60" cy="105" rx="30" ry="38" fill="url(#rg${hue})" opacity=".85" transform="rotate(20 60 105)"/>
+        <ellipse cx="60" cy="105" rx="30" ry="38" fill="url(#rg${hue})" opacity=".85" transform="rotate(70 60 105)"/>
+        <ellipse cx="60" cy="105" rx="30" ry="38" fill="url(#rg${hue})" opacity=".85" transform="rotate(-70 60 105)"/>
+        <ellipse cx="60" cy="105" rx="30" ry="38" fill="url(#rg${hue})" opacity=".85" transform="rotate(120 60 105)"/>
+        <ellipse cx="60" cy="105" rx="30" ry="38" fill="url(#rg${hue})" opacity=".85" transform="rotate(-120 60 105)"/>
+
+        <!-- inner petals -->
+        <ellipse cx="60" cy="100" rx="20" ry="28" fill="url(#rg${hue})" transform="rotate(0 60 100)"/>
+        <ellipse cx="60" cy="100" rx="20" ry="28" fill="url(#rg${hue})" transform="rotate(60 60 100)"/>
+        <ellipse cx="60" cy="100" rx="20" ry="28" fill="url(#rg${hue})" transform="rotate(-60 60 100)"/>
+        <ellipse cx="60" cy="100" rx="20" ry="28" fill="url(#rg${hue})" transform="rotate(120 60 100)"/>
+
+        <!-- center -->
+        <circle cx="60" cy="100" r="12" fill="hsl(${hue},100%,82%)" opacity=".9"/>
+        <circle cx="60" cy="100" r="6"  fill="hsl(${hue},90%,60%)"/>
+      </svg>`;
+    }
+
+    /* ── Place roses ── */
+    const rosesRow = document.getElementById('rosesRow');
+    const roseData = [
+      { scale: 0.70, hue: 348, delay: 0.2 },
+      { scale: 0.82, hue: 340, delay: 0.6 },
+      { scale: 1.00, hue: 345, delay: 1.0 },
+      { scale: 0.88, hue: 330, delay: 0.4 },
+      { scale: 0.72, hue: 355, delay: 0.8 },
+      { scale: 0.65, hue: 338, delay: 1.3 },
+      { scale: 0.78, hue: 350, delay: 0.1 },
+      { scale: 0.92, hue: 342, delay: 1.6 },
+    ];
+
+    roseData.forEach(({ scale, hue, delay }) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'rose-wrap';
+      wrap.style.animationDelay = `${delay}s`;
+      wrap.innerHTML = makeSvgRose(scale, hue);
+      rosesRow.appendChild(wrap);
+    });
+
+    /* ── Falling petals ── */
+    const petalContainer = document.getElementById('petalContainer');
+    for (let i = 0; i < 35; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.style.left = `${Math.random() * 100}%`;
+      p.style.animationDuration = `${4 + Math.random() * 8}s`;
+      p.style.animationDelay = `${Math.random() * 10}s`;
+      p.style.width  = `${8 + Math.random() * 12}px`;
+      p.style.height = `${12 + Math.random() * 16}px`;
+      p.style.opacity = 0.5 + Math.random() * 0.5;
+      // randomize color slightly
+      const h = 330 + Math.random() * 30;
+      p.style.background = `radial-gradient(ellipse at 40% 30%, hsl(${h},100%,80%), hsl(${h},90%,50%))`;
+      petalContainer.appendChild(p);
+    }
+
+    /* ── Floating hearts ── */
+    const heartContainer = document.getElementById('heartContainer');
+    const heartEmojis = ['❤️','🌹','💖','💗','💝','🌸'];
+    for (let i = 0; i < 20; i++) {
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      h.style.left = `${Math.random() * 100}%`;
+      h.style.bottom = `${Math.random() * 20}%`;
+      h.style.fontSize = `${14 + Math.random() * 20}px`;
+      h.style.animationDuration = `${5 + Math.random() * 8}s`;
+      h.style.animationDelay = `${Math.random() * 12}s`;
+      heartContainer.appendChild(h);
+    }
+  </script>
 </body>
 </html>
